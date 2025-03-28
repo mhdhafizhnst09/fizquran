@@ -1,20 +1,35 @@
- 
-    <!DOCTYPE html>
-    <html lang="id">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Arah Kiblat</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <header>
-            <h1>Arah Kiblat</h1>
-        </header>
-        
-        <main>
-            <iframe src="https://onlinecompass.net/id/qibla-finder" width="100%" height="600px" style="border:none;"></iframe>
-        </main>
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arah Kiblat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Arah Kiblat</h1>
+    </header>
     
+    <main>
+        <p id="location-status">Memeriksa izin lokasi...</p>
+        <iframe id="qibla-frame" src="https://onlinecompass.net/id/qibla-finder" width="100%" height="600px" style="border:none; display: none;"></iframe>
+    </main>
+
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    document.getElementById("location-status").textContent = "Lokasi ditemukan, menampilkan kompas...";
+                    document.getElementById("qibla-frame").style.display = "block";
+                },
+                function(error) {
+                    document.getElementById("location-status").textContent = "Izin lokasi ditolak. Aktifkan izin lokasi agar kompas berfungsi.";
+                }
+            );
+        } else {
+            document.getElementById("location-status").textContent = "Peramban tidak mendukung geolokasi.";
+        }
+    </script>
+</body>
+</html>
