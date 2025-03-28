@@ -95,20 +95,3 @@ function stopAudio() {
     }
     currentIndex = audioQueue.length; // Hentikan antrian
 }
-.btn {
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    color: white;
-    background: linear-gradient(45deg, #4CAF50, #2E7D32);
-    border-radius: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: inline-block;
-}
-
-.btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(45deg, #66BB6A, #388E3C);
