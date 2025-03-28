@@ -5,25 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kumpulan Doa Harian</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap');
+        
         body {
             font-family: Arial, sans-serif;
             max-width: 600px;
             margin: auto;
             padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
         }
         .doa {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .doa:hover {
+            transform: translateY(-5px);
         }
         .arabic {
-            font-size: 20px;
-            color: teal;
+            font-size: 22px;
+            color: #16a085;
             font-weight: bold;
+            font-family: 'Noto Naskh Arabic', serif;
+            text-align: right;
         }
         .latin {
             font-style: italic;
+            color: #555;
+        }
+        .translation {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #444;
         }
     </style>
     <script>
@@ -41,7 +70,7 @@
                         <h3>${doa.title}</h3>
                         <p class="arabic">${doa.arabic}</p>
                         <p class="latin">${doa.latin}</p>
-                        <p>${doa.translation}</p>
+                        <p class="translation">${doa.translation}</p>
                     `;
                     doaContainer.appendChild(doaElement);
                 });
@@ -69,7 +98,7 @@
 </head>
 <body>
     <h1>Kumpulan Doa Harian</h1>
-    <input type="text" id="search" placeholder="Cari doa..." onkeyup="searchDoa()" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    <input type="text" id="search" placeholder="Cari doa..." onkeyup="searchDoa()">
     
     <div id="doaContainer">
         <p>Memuat doa...</p>
