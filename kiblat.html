@@ -3,28 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arah Kiblat</title>
+    <title>Cari Arah Kiblat</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            background-color: #f8f8f8;
+            border: 2px solid #000;
+            border-radius: 50%;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Arah Kiblat</h1>
+        <h1>Cari Arah Kiblat</h1>
     </header>
     
     <main>
-        <p id="location-status">Memeriksa izin lokasi...</p>
-        <iframe id="qibla-frame" src="https://onlinecompass.net/id/qibla-finder" width="100%" height="600px" style="border:none; display: none;"></iframe>
+        <p id="location-status">Menunggu izin lokasi...</p>
+        <canvas id="compassCanvas" width="300" height="300" style="display:none;"></canvas>
     </main>
 
     <script>
+        function toRadians(degrees) {
+            return degrees * (Math.PI / 180);
+        }
+        
+        function calculateQiblaDirection(lat, lon) {
+            const kaabaLat = 21.4225;
+            const kaabaLon = 39.8262;
+            const phi1 = toRadians(lat);
+            const phi2 = toRadians(kaabaLat);
+            const deltaLambda = toRadians(kaabaLon - lon);
+            
+            const y = Math.sin(deltaLambda);
+            const x = Math.cos(phi1) * Math.tan(phi2) - Math.sin(phi1) * Math.cos(deltaLambda);
+            const theta = Math.atan2(y, x);
+            
+            return (theta * (180 / Math.PI) + 360) % 360;
+        }
+        
+        function drawCompass(direction) {
+            const canvas = document.getElementById("compassCanvas");
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Gambar lingkaran kompas
+            ctx.beginPath();
+            ctx.arc(150, 150, 100, 0, 2 * Math.PI);
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Gambar arah Utara
+            ctx.fillStyle = "black";
+            ctx.font = "16px Arial";
+            ctx.fillText("N", 145, 50);
+            
+            // Gambar garis arah Kiblat
+            ctx.beginPath();
+            ctx.moveTo(150, 150);
+            ctx.lineTo(150 + 100 * Math.sin(toRadians(direction)), 150 - 100 * Math.cos(toRadians(direction)));
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+            
+            // Label arah Kiblat
+            ctx.fillStyle = "red";
+            ctx.fillText("Arah Kiblat", 110, 280);
+        }
+        
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    document.getElementById("location-status").textContent = "Lokasi ditemukan, menampilkan kompas...";
-                    document.getElementById("qibla-frame").style.display = "block";
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const qiblaDirection = calculateQiblaDirection(lat, lon);
+                    
+                    document.getElementById("location-status").textContent = `Arah Kiblat: ${qiblaDirection.toFixed(2)}° dari Utara`;
+                    document.getElementById("compassCanvas").style.display = "block";
+                    drawCompass(qiblaDirection);
                 },
                 function(error) {
-                    document.getElementById("location-status").textContent = "Izin lokasi ditolak. Aktifkan izin lokasi agar kompas berfungsi.";
+                    document.getElementById("location-status").textContent = "Izin lokasi ditolak. Aktifkan lokasi untuk mengetahui arah kiblat.";
                 }
             );
         } else {
