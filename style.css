@@ -98,3 +98,18 @@ header {
     transform: scale(1.1);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
     background: linear-gradient(45deg, #66BB6A, #388E3C);
+}
+.verse {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    transition: background 0.3s;
+}
+
+.highlight {
+    background-color: #d4edda; /* Warna hijau muda */
+    border-left: 5px solid #28a745;
+    padding-left: 10px;
+}
+
+
+
