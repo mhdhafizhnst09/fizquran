@@ -37,18 +37,19 @@ function fetchSurah() {
             data.data.ayat.forEach(ayat => {
                 let verseDiv = document.createElement("div");
                 verseDiv.classList.add("verse");
+                verseDiv.id = `ayat-${ayat.nomorAyat}`;
                 verseDiv.innerHTML = `
                     <p class="arabic">${ayat.teksArab}</p>
                     <p class="latin">${ayat.teksLatin}</p>
                     <p class="terjemahan">${ayat.teksIndonesia}</p>
-                    <button class="play-button" data-audio="${ayat.audio['01']}">▶️ Putar</button>
+                    <button class="play-button" data-audio="${ayat.audio['01']}" data-ayat="ayat-${ayat.nomorAyat}">▶️ Putar</button>
                 `;
                 quranContent.appendChild(verseDiv);
             });
 
             document.querySelectorAll(".play-button").forEach(button => {
                 button.addEventListener("click", function () {
-                    playAudio(this.dataset.audio);
+                    playAudio(this.dataset.audio, this.dataset.ayat);
                 });
             });
         })
@@ -59,15 +60,23 @@ let currentAudio = null;
 let audioQueue = [];
 let currentIndex = 0;
 
-function playAudio(url) {
+function playAudio(url, ayatId) {
     if (!url) return;
     if (currentAudio) currentAudio.pause();
+
     currentAudio = new Audio(url);
     currentAudio.play();
+
+    highlightAyat(ayatId);
+    scrollToAyat(ayatId);
 }
 
 function playAllAudio() {
-    audioQueue = Array.from(document.querySelectorAll(".play-button")).map(button => button.dataset.audio);
+    audioQueue = Array.from(document.querySelectorAll(".play-button")).map(button => ({
+        audio: button.dataset.audio,
+        ayat: button.dataset.ayat
+    }));
+
     if (audioQueue.length === 0) return;
     
     currentIndex = 0;
@@ -79,9 +88,13 @@ function playNextInQueue() {
     
     if (currentAudio) currentAudio.pause();
     
-    currentAudio = new Audio(audioQueue[currentIndex]);
+    let currentAyat = audioQueue[currentIndex];
+    currentAudio = new Audio(currentAyat.audio);
     currentAudio.play();
-    
+
+    highlightAyat(currentAyat.ayat);
+    scrollToAyat(currentAyat.ayat);
+
     currentAudio.onended = () => {
         currentIndex++;
         playNextInQueue();
@@ -93,5 +106,25 @@ function stopAudio() {
         currentAudio.pause();
         currentAudio.currentTime = 0;
     }
-    currentIndex = audioQueue.length; // Hentikan antrian
+    removeHighlight();
+    currentIndex = audioQueue.length;
+}
+
+function highlightAyat(ayatId) {
+    removeHighlight();
+    const ayatElement = document.getElementById(ayatId);
+    if (ayatElement) {
+        ayatElement.classList.add("highlight");
+    }
+}
+
+function removeHighlight() {
+    document.querySelectorAll(".verse").forEach(el => el.classList.remove("highlight"));
+}
+
+function scrollToAyat(ayatId) {
+    const ayatElement = document.getElementById(ayatId);
+    if (ayatElement) {
+        ayatElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
 }
