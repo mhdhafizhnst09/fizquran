@@ -9,12 +9,30 @@
         body {
             text-align: center;
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
         }
-        canvas {
-            background-color: #f8f8f8;
-            border: 2px solid #000;
-            border-radius: 50%;
-            margin-top: 20px;
+        .compass-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+        .compass {
+            width: 100%;
+            height: 100%;
+            background: url('compass.png') no-repeat center center;
+            background-size: contain;
+            position: absolute;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 120px;
+            background: red;
+            transform-origin: 50% 100%;
+            clip-path: polygon(50% 0%, 100% 100%, 50% 80%, 0% 100%);
         }
     </style>
 </head>
@@ -25,7 +43,10 @@
     
     <main>
         <p id="location-status">Menunggu izin lokasi...</p>
-        <canvas id="compassCanvas" width="300" height="300" style="display:none;"></canvas>
+        <div class="compass-container">
+            <div class="compass"></div>
+            <div class="arrow" id="qiblaArrow"></div>
+        </div>
     </main>
 
     <script>
@@ -47,34 +68,6 @@
             return (theta * (180 / Math.PI) + 360) % 360;
         }
         
-        function drawCompass(qiblaDirection, deviceOrientation) {
-            const canvas = document.getElementById("compassCanvas");
-            const ctx = canvas.getContext("2d");
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const adjustedDirection = (qiblaDirection - deviceOrientation + 360) % 360;
-            
-            ctx.beginPath();
-            ctx.arc(150, 150, 100, 0, 2 * Math.PI);
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 3;
-            ctx.stroke();
-            
-            ctx.fillStyle = "black";
-            ctx.font = "16px Arial";
-            ctx.fillText("N", 145, 50);
-            
-            ctx.beginPath();
-            ctx.moveTo(150, 150);
-            ctx.lineTo(150 + 100 * Math.sin(toRadians(adjustedDirection)), 150 - 100 * Math.cos(toRadians(adjustedDirection)));
-            ctx.strokeStyle = "red";
-            ctx.lineWidth = 4;
-            ctx.stroke();
-            
-            ctx.fillStyle = "red";
-            ctx.fillText("Arah Kiblat", 110, 280);
-        }
-        
         let qiblaDirection = 0;
         
         if (navigator.geolocation) {
@@ -84,7 +77,6 @@
                     const lon = position.coords.longitude;
                     qiblaDirection = calculateQiblaDirection(lat, lon);
                     document.getElementById("location-status").textContent = `Arah Kiblat: ${qiblaDirection.toFixed(2)}° dari Utara`;
-                    document.getElementById("compassCanvas").style.display = "block";
                 },
                 function(error) {
                     document.getElementById("location-status").textContent = "Izin lokasi ditolak. Aktifkan lokasi untuk mengetahui arah kiblat.";
@@ -96,7 +88,9 @@
         
         window.addEventListener("deviceorientationabsolute", (event) => {
             if (qiblaDirection !== 0) {
-                drawCompass(qiblaDirection, event.alpha || 0);
+                const arrow = document.getElementById("qiblaArrow");
+                const adjustedDirection = (qiblaDirection - event.alpha + 360) % 360;
+                arrow.style.transform = `translate(-50%, -100%) rotate(${adjustedDirection}deg)`;
             }
         });
     </script>
