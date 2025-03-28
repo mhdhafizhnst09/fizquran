@@ -1,0 +1,83 @@
+/* Font Arab */
+@import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+
+/* Warna Islami */
+:root {
+    --primary: #126e51;
+    --secondary: #f4c430;
+    --background: #f5f5f5;
+    --text: #333;
+    --arabic-font: 'Amiri', serif;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Header */
+header {
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Quran Container */
+.quran-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Ayat Styling */
+.verse {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.arabic {
+    font-family: var(--arabic-font);
+    font-size: 28px;
+    direction: rtl;
+    text-align: right;
+    width: 90%;
+}
+
+.latin, .terjemahan {
+    text-align: left;
+    width: 90%;
+    font-size: 16px;
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: var(--primary);
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.taskbar button {
+    padding: 10px;
+    background: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.taskbar button:hover {
+    background: lightgray;
+}
