@@ -3,6 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Informasi</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .menu {
+            position: fixed;
+            top: 10px;
+            right: 50%;
+            transform: translateX(50%);
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .menu:hover {
+            background-color: #0056b3;
+        }
+        .info {
+            display: none;
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: black;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .toggle-btn {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .toggle-btn:hover {
+            background-color: #218838;
+        }
+        .clock {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu" id="menu" onclick="showInfo()">☰ Menu</div>
+    <div class="toggle-btn" id="toggleBtn" onclick="hideInfo()">⬅ Kembali</div>
+    <div class="info" id="info">
+        <p class="clock" id="clock">00:00:00</p>
+        <p><strong>Hai Orang :</strong> <span id="location">Mendeteksi...</span></p>
+        <p><strong>IP:</strong> <span id="ipAddress">Mendeteksi...</span></p>
+    </div>
+    <script>
+        function showInfo() {
+            document.getElementById("info").style.display = "block";
+            document.getElementById("menu").style.display = "none";
+            document.getElementById("toggleBtn").style.display = "block";
+        }
+        function hideInfo() {
+            document.getElementById("info").style.display = "none";
+            document.getElementById("menu").style.display = "block";
+            document.getElementById("toggleBtn").style.display = "none";
+        }
+        
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        // Ambil IP Address
+        fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("ipAddress").textContent = data.ip;
+                
+                // Ambil lokasi berdasarkan IP
+                return fetch(`https://ipwhois.app/json/${data.ip}`);
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("location").textContent = `${data.city}, ${data.region}, ${data.country}`;
+            })
+            .catch(error => {
+                document.getElementById("location").textContent = "Gagal mendapatkan lokasi";
+                document.getElementById("ipAddress").textContent = "Gagal mendapatkan IP";
+            });
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiz Qur'an</title>
     <link rel="stylesheet" href="style.css">
 </head>
