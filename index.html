@@ -14,8 +14,7 @@
         .menu {
             position: fixed;
             top: 10px;
-            right: 50%;
-            transform: translateX(50%);
+            left: 10px;
             background-color: #007bff;
             color: white;
             padding: 10px 20px;
@@ -29,8 +28,7 @@
             display: none;
             position: fixed;
             top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 10px;
             background: white;
             color: black;
             padding: 15px;
@@ -42,8 +40,7 @@
             display: none;
             position: fixed;
             top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 10px;
             background-color: #28a745;
             color: white;
             padding: 10px 20px;
@@ -64,9 +61,10 @@
     <div class="menu" id="menu" onclick="showInfo()">☰ Menu</div>
     <div class="toggle-btn" id="toggleBtn" onclick="hideInfo()">⬅ Kembali</div>
     <div class="info" id="info">
+        
+        <p><strong>Hai Orang:</strong> <span id="location">Mendeteksi...</span></p>
+        <p><strong>Ip:</strong> <span id="ipAddress">Mendeteksi...</span></p>
         <p class="clock" id="clock">00:00:00</p>
-        <p><strong>Hai Orang :</strong> <span id="location">Mendeteksi...</span></p>
-        <p><strong>IP:</strong> <span id="ipAddress">Mendeteksi...</span></p>
     </div>
     <script>
         function showInfo() {
