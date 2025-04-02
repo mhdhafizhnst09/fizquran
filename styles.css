@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+
+/* Gaya Umum */
+body {
+    font-family: 'Amiri', serif;
+    background-color: #F3EACF; /* Warna ala mushaf */
+    color: #5A4638; /* Warna lembut */
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #8B6F47; /* Coklat tua */
+    padding: 20px;
+    font-size: 24px;
+    color: white;
+}
+
+.container {
+    margin: 20px;
+}
+
+/* Dropdown Surat */
+.dropdown select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+/* Tampilan Ayat seperti Mushaf */
+.ayat-item {
+    background: #FFF9E6; /* Krem ala mushaf */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px;
+    text-align: right;
+    font-size: 28px;
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    line-height: 2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Tombol Hafal */
+.hafal-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hafal-btn.hafal {
+    background-color: #2E8B57;
+}
+
+.hafal-btn:hover {
+    opacity: 0.8;
+}
+
+/* Tombol Uji Hafalan */
+.uji-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #FFA500;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.uji-btn:hover {
+    background-color: #FF8C00;
+}
+
+/* Progress Bar */
+.progress-container {
+    margin-top: 20px;
+}
+
+progress {
+    width: 80%;
+    height: 20px;
+}

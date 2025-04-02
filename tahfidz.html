@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tahfidz Quran</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>📖 Smart Tahfidz Quran</h1>
+</header>
+
+<div class="container">
+    <div class="dropdown">
+        <label for="surahSelect">📜 Pilih Surah:</label>
+        <select id="surahSelect" onchange="loadSurahDetails()">
+            <option value="">--Pilih Surah--</option>
+        </select>
+    </div>
+
+    <div id="surahDetails" class="surah-details">
+        <h2 id="surahName">📌 Pilih surah untuk mulai menghafal</h2>
+        <div id="ayatList"></div>
+    </div>
+</div>
+
+<div class="progress-container">
+    <h3>📊 Progres Hafalan</h3>
+    <progress id="hafalanProgress" value="0" max="100"></progress>
+    <p id="hafalanPercentage">0% Hafal</p>
+</div>
+
+<footer>
+    <p>&copy; 2025 Fiz Quran.</p>
+</footer>
+
+<script src="scripts.js"></script>
+
+</body>
+</html>
